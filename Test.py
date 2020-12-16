@@ -47,6 +47,27 @@ class RbTreeTests(unittest.TestCase):
         sol.RBInsert(rb_tree, rb_node_right)
         self.assertEqual(rb_tree.root.right.key, rb_node_right.key)
 
+    # вставка узла дерева
+    def test_tree_insert(self):
+        rb_tree = RBTree()
+        rb_node = RBTreeNode(9)
+        rb_node_left = RBTreeNode(4)
+        rb_node_right = RBTreeNode(20)
+        sol = Solution()
+        sol.RBInsert(rb_tree, rb_node)
+        sol.RBInsert(rb_tree, rb_node_left)
+        sol.RBInsert(rb_tree, rb_node_right)
+
+        rb_node_insert = RBTreeNode(3)
+        sol.RBInsert(rb_tree, rb_node_insert)
+        self.assertEqual(rb_tree.root.left.left.key, rb_node_insert.key)
+        self.assertEqual(rb_tree.root.left.left.color, 'red')
+
+        rb_node_insert = RBTreeNode(5)
+        sol.RBInsert(rb_tree, rb_node_insert)
+        self.assertEqual(rb_tree.root.left.right.key, rb_node_insert.key)
+        self.assertEqual(rb_tree.root.left.right.color, 'red')
+
 
 if __name__ == '__main__':
     unittest.main()
