@@ -1,5 +1,5 @@
 import unittest
-from RBTree import RBTreeNode, RBTree
+from RBTree import RBTreeNode, RBTree, Solution
 
 
 class RbTreeTests(unittest.TestCase):
@@ -18,6 +18,14 @@ class RbTreeTests(unittest.TestCase):
         nil = RBTreeNode(-1)
         rb_tree = RBTree()
         self.assertEqual(rb_tree.root.key, nil.key)
+
+    # вставка корня дерева
+    def test_tree_insert_root(self):
+        rb_tree = RBTree()
+        rb_node = RBTreeNode(9)
+        sol = Solution()
+        sol.RBInsert(rb_tree, rb_node)
+        self.assertEqual(rb_tree.root.key, rb_node.key)
 
 
 if __name__ == '__main__':
