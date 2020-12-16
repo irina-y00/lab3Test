@@ -1,3 +1,6 @@
+import random
+
+
 class RBTreeNode:
     def __init__(self, x):
         self.key = x
@@ -101,3 +104,88 @@ class Solution:
         z.color = 'red'
         self.RBInsertFixup(T, z)
 
+    def RBTransplant(self, T, u, v):
+        if u.parent == T.nil:
+            T.root = v
+        elif u == u.parent.left:
+            u.parent.left = v
+        else:
+            u.parent.right = v
+        v.parent = u.parent
+
+    def TreeMinimum(self, T, x):
+        while x.left != T.nil:
+            x = x.left
+        return x
+
+    def RBDeleteFixup(self, T, x):
+        while x != T.root and x.color == 'black':
+            if x == x.parent.left:
+                w = x.parent.right
+                if w.color == 'red':
+                    w.color = 'black'
+                    x.parent.color = 'red'
+                    self.LeftRotate(T, x.parent)
+                    w = x.parent.right
+                if w.left.color == 'black' and w.right.color == 'black':
+                    w.color = 'red'
+                    x = x.parent
+                else:
+                    if w.right.color == 'black':
+                        w.left.color = 'black'
+                        w.color = 'red'
+                        self.RightRotate(T, w)
+                        w = x.parent.right
+                    w.color = x.parent.color
+                    x.parent.color = 'black'
+                    w.right.color = 'black'
+                    self.LeftRotate(T, x.parent)
+                    x = T.root
+            else:
+                w = x.parent.left
+                if w.color == 'red':
+                    w.color = 'black'
+                    x.parent.color = 'red'
+                    self.RightRotate(T, x.parent)
+                    w = x.parent.left
+                if w.right.color == 'black' and w.left.color == 'black':
+                    w.color = 'red'
+                    x = x.parent
+                else:
+                    if w.left.color == 'black':
+                        w.right.color = 'black'
+                        w.color = 'red'
+                        self.LeftRotate(T, w)
+                        w = x.parent.left
+                    w.color = x.parent.color
+                    x.parent.color = 'black'
+                    w.left.color = 'black'
+                    self.RightRotate(T, x.parent)
+                    x = T.root
+        x.color = 'black'
+
+    def RBDelete(self, T, z):
+        y = z
+        y_original_color = y.color
+        if z.left == T.nil:
+            x = z.right
+            self.RBTransplant(T, z, z.right)
+        elif z.right == T.nil:
+            x = z.left
+            self.RBTransplant(T, z, z.left)
+        else:
+            y = self.TreeMinimum(T, z.right)
+            y_original_color = y.color
+            x = y.right
+            if y.parent == z:
+                x.parent = y
+            else:
+                self.RBTransplant(T, y, y.right)
+                y.right = z.right
+                y.right.parent = y
+            self.RBTransplant(T, z, y)
+            y.left = z.left
+            y.left.parent = y
+            y.color = z.color
+        if y_original_color == 'black':
+            self.RBDeleteFixup(T, x)
