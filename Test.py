@@ -68,6 +68,32 @@ class RbTreeTests(unittest.TestCase):
         self.assertEqual(rb_tree.root.left.right.key, rb_node_insert.key)
         self.assertEqual(rb_tree.root.left.right.color, 'red')
 
+    # удаление корня дерева
+    def test_tree_delete_root(self):
+        rb_tree = RBTree()
+        sol = Solution()
+        rb_node_insert = RBTreeNode(9)
+        sol.RBInsert(rb_tree, rb_node_insert)
+        rb_node_insert = RBTreeNode(4)
+        sol.RBInsert(rb_tree, rb_node_insert)
+        rb_node_insert = RBTreeNode(20)
+        sol.RBInsert(rb_tree, rb_node_insert)
+        rb_node_insert = RBTreeNode(3)
+        sol.RBInsert(rb_tree, rb_node_insert)
+        rb_node_insert = RBTreeNode(5)
+        sol.RBInsert(rb_tree, rb_node_insert)
+
+        sol.RBDelete(rb_tree, rb_tree.root)
+
+        self.assertEqual(rb_tree.root.key, 4)
+        self.assertEqual(rb_tree.root.color, 'black')
+        self.assertEqual(rb_tree.root.left.key, 3)
+        self.assertEqual(rb_tree.root.left.color, 'black')
+        self.assertEqual(rb_tree.root.right.key, 20)
+        self.assertEqual(rb_tree.root.right.color, 'black')
+        self.assertEqual(rb_tree.root.right.left.key, 5)
+        self.assertEqual(rb_tree.root.right.left.color, 'red')
+
 
 if __name__ == '__main__':
     unittest.main()
